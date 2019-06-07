@@ -8,7 +8,7 @@
 <br />
 <p align="center">
 
-  <h3 align="center">Workout Randomizer</h3>
+  <h3 align="center">Time Tracker</h3>
 
   <p align="center">
     Time tracking software made simple.
