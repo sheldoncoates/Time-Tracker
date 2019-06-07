@@ -1,0 +1,185 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+html, body {
+    font-family: Montserrat;
+    background-color: #f9f9f9;
+}
+
+#noFill {
+    background-color: #ffc107;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    color: white;
+    z-index: 4;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+#created {
+    background-color: #28a745;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    color: white;
+    z-index: 4;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+#deleted {
+    background-color: #ED4337;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    color: white;
+    z-index: 4;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.notification {
+    padding: 10px;
+    color: white;
+    float: left;
+    font-size: 20px;
+}
+
+.closebtn {
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 4;
+}
+
+.selectionBar {
+    width: 100%;
+    padding: 20px;
+    /* background-color: #232528; */
+    /* background-color: #373F51; */
+    background-color: #403F4C;
+    top: 0;
+    position: fixed;
+    box-shadow: 0 2px 3px #ccc;
+}
+
+.content {
+    display: flex;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 30px;
+    color: #007bff;
+}
+
+h4 {
+    font-weight: bold;
+    font-size: 30px;
+    color: #007bff;
+    margin: 0;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 16px;
+    color: #007bff;
+}
+
+select {
+    font-size: 12px;
+}
+
+.content input {
+    width: 100%;
+    margin: 0px 5px 0px 10px;
+    border: none;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+button {
+    margin: 0px 5px 0px 5px;
+}
+
+#stopWatch {
+    height: auto;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 30px;
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    background-color: white;
+    color: #007bff;
+    margin: 140px 20px 10px 20px;
+}
+
+#timer {
+    margin-bottom: 0;
+}
+
+#fulltime {
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.historyCard {
+    height: auto;
+    padding: 20px;
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 2px 3px #ccc;
+    background-color: white;
+    margin: 20px;
+}
+
+.historyBar {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+#totalTime {
+    font-size: 16px;
+}
+
+.history {
+    padding: 0px 20px 0px 20px;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+hr {
+    margin: 8px 0px;
+}
