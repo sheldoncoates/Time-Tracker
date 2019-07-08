@@ -106,6 +106,13 @@ h3 {
     color: #007bff;
 }
 
+h5 {
+    font-weight: bold;
+    font-size: 16px;
+    color: #007bff;
+    margin: 0;
+}
+
 select {
     font-size: 12px;
 }
@@ -134,7 +141,7 @@ button {
     box-shadow: 0 2px 3px #ccc;
     background-color: white;
     color: #007bff;
-    margin: 140px 20px 10px 20px;
+    margin: 20px;
 }
 
 #timer {
@@ -182,4 +189,32 @@ p {
 
 hr {
     margin: 8px 0px;
+}
+
+.taskCard {
+    height: auto;
+    padding: 20px;
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 2px 3px #ccc;
+    background-color: white;
+    margin: 140px 20px 10px 20px;
+}
+
+.taskContent {
+    display: flex;
+    align-items: baseline;
+}
+
+.taskContent input {
+    width: 100%;
+    margin: 0px 5px 0px 10px;
+    border: 1px solid #ccc;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.sr {
+    visibility: hidden;
 }

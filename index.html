@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
         integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://unpkg.com/scrollreveal"></script>
     <link rel="stylesheet" href="./home.css">
     <title>Time Tracker</title>
 </head>
@@ -27,7 +29,7 @@
     <div class="selectionBar">
         <h1>Time Tracker</h1>
         <div class="content">
-            <select id="selectProject" onchange="setProject(this.value +'.txt')">
+            <select id="selectProject" onchange="setProject(this.value)">
                 <option>Choose a Project</option>
             </select>
             <input id="proj" type="text" placeholder="Project Name">
@@ -35,7 +37,13 @@
             <button class="btn btn-danger" onclick="deleteProject()" id="del" disabled> Delete</button>
         </div>
     </div>
-    <div id="stopWatch">
+    <div class="taskCard sr">
+        <div class="taskContent">
+            <h5>Task:</h5>
+            <input id="task" type="text" placeholder="Task Name" oninput="setTask(this.value)" disabled>
+        </div>
+    </div>
+    <div id="stopWatch" class="sr">
         <p id="timer"> 00:00:00 </p>
         <h3>Hours : Minutes : Seconds</h3>
         <button class="btn btn-success" id="start" disabled> <i class="fas fa-play"></i> </button>
@@ -44,22 +52,21 @@
         <button class="btn btn-primary" id="continue" hidden> <i class="fas fa-step-forward"></i> </button>
         <p id="fulltime" class="fulltime"></p>
     </div>
-    <div class="historyCard">
+    <div class="historyCard sr">
         <div class="historyBar">
             <h4>History</h4>
             <div id="totalTime">Total Time: 0</div>
         </div>
         <div class="history">
-            <h2>YYYY - MM - DD | HH : MM : SS</h2>
-            <div id="times">
-                <!-- appended from js -->
-                No History
-            </div>
+            <table id="times" style="width:100%">
+                <!-- injected content -->
+            </table>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="./home.js"></script>
+    <script src="./scrollReveal.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>

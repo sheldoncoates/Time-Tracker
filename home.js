@@ -3,6 +3,7 @@ const fs = require('fs');
 //loading drop down with projects
 window.onload = function () {
   populateDropdown();
+  document.getElementById("times").innerHTML = "No History";
 };
 
 function populateDropdown() {
@@ -39,18 +40,20 @@ function createProject() {
   } else {
     document.getElementById("created").style.visibility = "visible";
     document.getElementById("created").style.opacity = 1;
-    fs.writeFile('./data/' + project + '.txt', '', (err) => {
+    fs.writeFile('./data/' + project + '.csv', '', (err) => {
       if (err) {
         errorHandler(err);
         return;
       } else {
-        fs.chmodSync('./data/' + project + '.txt', '0755');
+        fs.chmodSync('./data/' + project + '.csv', '0755');
         populateDropdown();
         document.getElementById("proj").value = "";
         document.getElementById("start").disabled = true;
         document.getElementById("stop").disabled = true;
         document.getElementById("pause").disabled = true;
         document.getElementById("del").disabled = true;
+        document.getElementById("task").disabled = true;
+        document.getElementById("task").value = "";
         document.getElementById("times").innerHTML = "No History";
         document.getElementById("totalTime").innerHTML = " Total Time: 0"
       }
@@ -60,7 +63,7 @@ function createProject() {
 }
 function deleteProject() {
   var project = document.getElementById("selectProject").value;
-  fs.unlink('./data/' + project + '.txt', function (err) {
+  fs.unlink('./data/' + project + '.csv', function (err) {
     if (err) {
       console.error(err);
     }
@@ -69,6 +72,8 @@ function deleteProject() {
     document.getElementById("stop").disabled = true;
     document.getElementById("pause").disabled = true;
     document.getElementById("del").disabled = true;
+    document.getElementById("task").disabled = true;
+    document.getElementById("task").value = "";
     document.getElementById("times").innerHTML = "No History";
     document.getElementById("deleted").style.visibility = "visible";
     document.getElementById("deleted").style.opacity = 1;
@@ -78,64 +83,108 @@ function deleteProject() {
 //setting the project from the dropdown
 var fileName = "";
 function setProject(name) {
-  if (name === "Choose a Project.txt") {
+  if (name === "Choose a Project") {
     fileName = "";
     document.getElementById("start").disabled = true;
     document.getElementById("stop").disabled = true;
     document.getElementById("pause").disabled = true;
     document.getElementById("del").disabled = true;
+    document.getElementById("task").disabled = true;
+    document.getElementById("task").value = "";
     document.getElementById("times").innerHTML = "No History";
     document.getElementById("fulltime").style.display = "none";
     document.getElementById("totalTime").innerHTML = " Total Time: 0"
   } else {
     fileName = name;
+    document.getElementById("del").disabled = false;
+    document.getElementById("task").disabled = false;
+    document.getElementById("task").value = "";
+    getHistory();
+  }
+}
+var taskName = "";
+function setTask(name) {
+  if (name != "" && fileName != "") {
+    taskName = name;
     document.getElementById("start").disabled = false;
     document.getElementById("stop").disabled = false;
     document.getElementById("pause").disabled = false;
-    document.getElementById("del").disabled = false;
-    getHistory();
     document.getElementById("fulltime").style.display = "none";
+  } else {
+    taskName = "";
+    document.getElementById("start").disabled = true;
+    document.getElementById("stop").disabled = true;
+    document.getElementById("pause").disabled = true;
   }
 }
 
 //getting time history of project
 function getHistory() {
   document.getElementById("times").innerHTML = "";
-
-  fs.readFile('./data/' + fileName, (err, data) => {
+  var headingRow = document.createElement('TR');
+  var dateHeading = document.createElement('TH');
+  var timeHeading = document.createElement('TH');
+  var taskHeading = document.createElement('TH');
+  dateHeading.appendChild(document.createTextNode("Date (YYYY - MM - DD)"));
+  timeHeading.appendChild(document.createTextNode("Time (HH : MM : SS)"));
+  taskHeading.appendChild(document.createTextNode("Task"));
+  headingRow.appendChild(dateHeading);
+  headingRow.appendChild(timeHeading);
+  headingRow.appendChild(taskHeading);
+  document.getElementById("times").appendChild(headingRow);
+  fs.readFile('./data/' + fileName + '.csv', (err, data) => {
     var hours = 0;
     var minutes = 0;
     var seconds = 0;
     if (err) throw err;
     var lineReader = require('readline').createInterface({
-      input: require('fs').createReadStream('./data/' + fileName)
+      input: require('fs').createReadStream('./data/' + fileName + '.csv')
     });
 
     lineReader.on('line', function (line) {
-      var time = line;
-      time = time.substring(time.indexOf('|') + 1, time.length);
+      var data = line.split(',');
+      //getting the date from the csv file line
+      var date = data[0];
+      //getting the time from the csv file line
+      var time = data[1];
+      //getting the task from the csv file line
+      var task = data[2];
+      //splitting hours, mins and secs
       var hms = time.split(':');
       seconds += parseInt(hms[2]);
       minutes += parseInt(hms[1]);
       hours += parseInt(hms[0]);
-      if (seconds >= 60){
-        console.log("over 60")
+      //can only have 60 secs
+      if (seconds >= 60) {
         minutes += 1;
         seconds -= 60;
       }
-      if (minutes >= 60){
+      //can only have 60 mins
+      if (minutes >= 60) {
         hours += 1;
         minutes -= 60;
       }
+      //have to display the total time here for some reason
       document.getElementById("totalTime").innerHTML = "Total Time: " + hours + "h " + minutes + "m " + seconds + "s";
-      var para = document.createElement("P");
-      var t = document.createTextNode(line);
-      para.appendChild(t);
-      document.getElementById("times").appendChild(para);
-      var hr = document.createElement('hr');
-      document.getElementById("times").appendChild(hr);
 
+      //creating new row and items for the row
+      var tr = document.createElement('TR');
+      var d = document.createElement('TD');
+      var t = document.createElement('TD');
+      var ta = document.createElement('TD');
+
+      //populating the row items
+      d.appendChild(document.createTextNode(date));
+      t.appendChild(document.createTextNode(time));
+      ta.appendChild(document.createTextNode(task));
+      //adding the items to the row element 
+      tr.appendChild(d);
+      tr.appendChild(t);
+      tr.appendChild(ta);
+      //adding the row to the table
+      document.getElementById("times").appendChild(tr);
     });
+
   })
 }
 
@@ -191,7 +240,7 @@ function startTime() {
   document.getElementById("selectProject").disabled = true;
   document.getElementById("del").disabled = true;
   document.getElementById("create").disabled = true;
-
+  document.getElementById("task").value = "";
 
   /* check if seconds, minutes, and hours are equal to zero 
     and start the Count-Up */
@@ -215,7 +264,9 @@ function stopTime() {
   document.getElementById("selectProject").disabled = false;
   document.getElementById("del").disabled = false;
   document.getElementById("create").disabled = false;
-
+  document.getElementById("start").disabled = true;
+  document.getElementById("stop").disabled = true;
+  document.getElementById("pause").disabled = true;
 
   /* check if seconds, minutes and hours are not equal to 0 */
   if (seconds !== 0 || minutes !== 0 || hours !== 0) {
@@ -229,9 +280,9 @@ function stopTime() {
 
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    var writeData = date + " | " + time + "\n";
+    var writeData = date + ',' + time + ',' + taskName + "\n";
     // Write data in 'Time.txt' . 
-    fs.appendFileSync("./data/" + fileName, writeData, "UTF-8", { 'flags': 'a+' });
+    fs.appendFileSync("./data/" + fileName + '.csv', writeData, "UTF-8", { 'flags': 'a+' });
 
     // reset the Count-Up
     seconds = 0;
